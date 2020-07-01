@@ -28,11 +28,27 @@ export IDF_PATH=~/esp/ESP8266_RTOS_SDK
 python -m pip install --user -r $IDF_PATH/requirements.txt
 ```
 
-### Hello world
+__Hello world__
 
 ```
 cd ~/esp
 cp -r $IDF_PATH/examples/get-started/hello_world .
 cd ~/esp/hello_world
 make menuconfig
+sudo usermod -a -G dialout $USER
+sudo chmod -R 666 /dev/ttyUSB0
+make flash
+make monitor
 ```
+To exit the monitor use shortcut Ctrl+].
+
+### CoreMark
+
+```
+git clone https://github.com/ochrin/coremark.git 
+cd ~/esp/coremark
+make flash; screen /dev/ttyUSB0 115200
+```
+Ctrl-a + k then y to exit screen
+
+more to come ...
