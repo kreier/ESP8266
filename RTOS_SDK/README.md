@@ -28,6 +28,8 @@ export IDF_PATH=~/esp/ESP8266_RTOS_SDK
 python -m pip install --user -r $IDF_PATH/requirements.txt
 ```
 
+You can check the correct set environment PATH variables with `printenv PATH` and `printenv IDF_PATH`.
+
 __Hello world__
 
 ```
@@ -39,6 +41,14 @@ sudo usermod -a -G dialout $USER
 sudo chmod -R 666 /dev/ttyUSB0
 make flash
 make monitor
+```
+To exit the monitor use shortcut Ctrl+].
+
+__Wifi sniffer__
+```
+cp -r $IDF_PATH/examples/wifi/sniffer .
+cd sniffer
+make flash monitor
 ```
 To exit the monitor use shortcut Ctrl+].
 
