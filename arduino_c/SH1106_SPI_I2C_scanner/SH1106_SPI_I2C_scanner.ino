@@ -1,6 +1,15 @@
 // I2C scanner on ESP8266 with 128x64 OLED SPI display 
 // Buffer 26x9 with 5x7 font
-// 2020/07/14 v0.2
+// 2020/07/14 v0.3
+//
+// D1 SCL               GPIO5
+// D2 SDA               GPIO4
+// D3 DC   data/clock   GPIO0   x
+// D4 RST  reset        GPIO2   x
+// D5 CLK  clock        GPIO14  x
+// D6 MISO              GPIO12
+// D7 MOSI              GPIO13  x
+// D8 CS   Chip Select  GPIO15  x
 
 #include <Arduino.h>
 #include <U8x8lib.h>
