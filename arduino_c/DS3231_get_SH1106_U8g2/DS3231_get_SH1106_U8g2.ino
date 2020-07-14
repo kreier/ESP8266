@@ -29,7 +29,7 @@ void setup(void) {
   Serial.println("\nRTC clock");
 
   u8g2.begin();
-  u8g2.setFont(u8g2_font_5x7_mf); // u8x8_font_artosserif8_r
+  u8g2.setFont(u8g2_font_5x7_mf);
   
   u8g2log.begin(u8g2, U8LOG_WIDTH, U8LOG_HEIGHT, u8log_buffer);
   u8g2log.setRedrawMode(0);		// 0: Update screen with newline, 1: Update screen for every char
