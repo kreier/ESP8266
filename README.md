@@ -12,6 +12,9 @@ You can get a variety of different ESP8266 boards here in HCM, for less than $3.
 
 Using SCL (D1 or GPIO5) and SDA (D2 or GPIO4) we get the hardware I2C of the ESP8266 and can scan for connected devices like RTC, 1Kbyte EEPROM, BME280 or 1602 displays. The 256bit ID is displayed on the 128x64 SH1106 SPI 1.13" OLED display and the serial bus:
 
+<img src="./arduino_c/SH1106_SPI_I2C_scanner/SH1106_i2c-scan.png" align="right" width="40%">
+<img src="./arduino_c/SH1106_SPI_I2C_scanner/i2c_scanner_picture.jpeg" width="50%">
+
 ### [Analog pin reader](arduino_c/read_analog)
 
 From zero to 3.1 Volt its a linear reading:
