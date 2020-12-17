@@ -6,7 +6,12 @@ You can get a variety of different ESP8266 boards here in HCM, for less than $3.
 
 ## [Arduino C projects](arduino_c)
 
-### OLED Display driver sh1106 and ssd1306
+### [OLED Display driver sh1106 and ssd1306](./arduino_c/oled_animation_demo_sh1106)
+
+After some search I found the great libraries [u8glib](https://github.com/olikraus/u8glib) and [u8g2](https://github.com/olikraus/u8g2) from [Oli Kraus](https://github.com/olikraus). Just uncomment the correct line, connnect the 4 needed wires for the I2C connection of the display and you get the first output. The main libraries are 
+
+- [u8glib](https://github.com/olikraus/u8glib) no longer active developed
+- [u8g2](https://github.com/olikraus/u8g2) for monochrome displays, includes __U8x8__ as well
 
 ### [I2C scanner](arduino_c/SH1106_SPI_I2C_scanner)
 
@@ -14,6 +19,8 @@ Using SCL (D1 or GPIO5) and SDA (D2 or GPIO4) we get the hardware I2C of the ESP
 
 <img src="./arduino_c/SH1106_SPI_I2C_scanner/SH1106_i2c-scan.png" align="right" width="40%">
 <img src="./arduino_c/SH1106_SPI_I2C_scanner/i2c_scanner_picture.jpeg" width="50%">
+
+The above image shows that both the RTC DS3231 on 0x57 as well as the 1k EEPROM AT24C32 on 0x68 have been found. Both are on the ZS-042 module. With A0, A1 and A2 the I2C address of the DS3231 could be altered. 
 
 ### [Analog pin reader](arduino_c/read_analog)
 
