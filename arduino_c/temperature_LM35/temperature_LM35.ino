@@ -6,7 +6,7 @@ int sensorValue = 0;  // value read from the LM35 10mV/°C
 float temperature = 0;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(74880);
 }
 
 void loop() {
