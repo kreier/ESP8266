@@ -24,7 +24,6 @@ void setup() {
     for(;;); // Don't proceed, loop forever
   }
   for(int i = 0; i < 5; i++) {
-    pinMode(buttonPins[i], INPUT);
     pinMode(buttonPins[i], INPUT_PULLUP);
   }
   display.clearDisplay();
