@@ -1,25 +1,30 @@
 // Wemos ESP8266 with battery holder and 0.96" 128x64 OLED display
 // three input buttones, no schematics
 
+// #include <Adafruit_GFX.h>
+// #include <Adafruit_SSD1306.h>
+// #include <Adafruit_SH110X.h>
+// #include <oled.h>
+
+#include <U8g2lib.h>
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Adafruit_SH110X.h>
-#include <oled.h>
 #include <time.h>
 #include <math.h>
 #include <ESP_EEPROM.h>
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
-#define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
-#define SCREEN_ADDRESS 0x3C 
-#define SDA  14          // 5 for shield   14 for Lolin
-#define SCL  12          // 4 for shield   12 for Lolin
+// #define SCREEN_WIDTH 128 // OLED display width, in pixels
+// #define SCREEN_HEIGHT 64 // OLED display height, in pixels
+// #define OLED_RESET    -1 // Reset pin # (or -1 if sharing Arduino reset pin)
+// #define SCREEN_ADDRESS 0x3C 
+// #define SDA  14          // 5 for shield   14 for Lolin
+// #define SCL  12          // 4 for shield   12 for Lolin
 // Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-Adafruit_SH1106 display = Adafruit_SH1106(SCREEN_HEIGHT, SCREEN_WIDTH, &Wire, OLED_RESET);
+// Adafruit_SH1106 display = Adafruit_SH1106(SCREEN_HEIGHT, SCREEN_WIDTH, &Wire, OLED_RESET);
 // OLED display = OLED(SDA, SCL, reset_pin=NO_RESET_PIN, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+U8G2_SH1106_128X64_NONAME_F_SW_I2C  u8g2(0, 12, 14) // wide Lolin ESP8266 board
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(0, 4, 5)   // integrated board
 
 int buttonUP   = 13;
 int buttonDOWN = 12;
@@ -152,22 +157,27 @@ void show_last(int index) {
 
 void setup() {
   Serial.begin(74880);
-  Wire.begin(SDA, SCL);
+  u8g2.begin();
   pinMode(led, OUTPUT);
   digitalWrite(led, LOW);
   pinMode(buttonUP  , INPUT_PULLUP);
   pinMode(buttonDOWN, INPUT_PULLUP);
   pinMode(buttonOK  , INPUT_PULLUP);
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for(;;); // Don't proceed, loop forever
-  }
+  // if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+  //   Serial.println(F("SSD1306 allocation failed"));
+  //   for(;;); // Don't proceed, loop forever
+  // }
   display.clearDisplay();
   display.setRotation(2); // 180 degrees
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE, SSD1306_BLACK); // Draw white text
   display.setCursor(0, 0);
+  u8g2.firstPage();
+  do {
+    u8g2.setFont(u8g2_font_ncenB14_tr);
+    u8g2.drawStr(0,24,"Hello World!");
+  } while ( u8g2.nextPage() );
   for (int i = 0; i < 2; i++) {
     Serial.print(".");
     display.print(".");
