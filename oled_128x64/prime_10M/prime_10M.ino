@@ -157,7 +157,7 @@ void setup() {
 
 
   // start calculating in micros for higher precision for the first 7 calculations
-  for (int i = 0; i < 6; i++) // 9
+  for (int i = 0; i < 9; i++) // 9
   {
     long last = scope[i];
     found = 4;   // we already know 2, 3, 5, 7

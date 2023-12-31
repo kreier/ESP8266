@@ -2,18 +2,29 @@ Wemos board ESP8266 with 18650 battery holder and 0.96 inch OLED display 128x64
 
 Driver in Arduino C: NodeMCU 1.0 (ESP-12E) it is acutally an ESP-12F
 
-Pins:
-SDA   GPIO5
-SCL   GPIO4
-LED   LED_BUILTIN
+Pins   external  display  input after rotation
+GPIO0     03               right                flash
+GPIO1     10                                    TXD0
+GPIO2     04                                    LED_BUILDIN
+GPIO3     09                                    RXD0
+GPIO4              SCL                          SDA
+GPIO5              SDA                          SCL
+GPIO6  -
+GPIO7  -
+GPIO8  -
+GPIO9  -
+GPIO10 -
+GPIO11 -
+GPIO12                     down
+GPIO13                     up
+GPIO14                     determine
+GPIO15    08
+GPIO16
+RESET                      left                  reset
+ADC0      A0                                     ADC0
 
+Input direction when display is left (after display.setRotation(2); ):
 
-Input when display is left (after display.setRotation(2); ):
-right     flash
-left      reset
-up        13
-down      12
-determine 14
 
 I2C display at 0x3C
 with 6x8 (5x7) this gives 21x8 character
