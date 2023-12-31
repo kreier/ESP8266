@@ -6,6 +6,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_SH110X.h>
+#include <oled.h>
 #include <time.h>
 #include <math.h>
 #include <ESP_EEPROM.h>
@@ -16,8 +17,9 @@
 #define SCREEN_ADDRESS 0x3C 
 #define SDA  14          // 5 for shield   14 for Lolin
 #define SCL  12          // 4 for shield   12 for Lolin
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-// Adafruit_SH1107 display = Adafruit_SH1107(SCREEN_HEIGHT, SCREEN_WIDTH, &Wire);
+// Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+Adafruit_SH1106 display = Adafruit_SH1106(SCREEN_HEIGHT, SCREEN_WIDTH, &Wire, OLED_RESET);
+// OLED display = OLED(SDA, SCL, reset_pin=NO_RESET_PIN, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int buttonUP   = 13;
 int buttonDOWN = 12;
