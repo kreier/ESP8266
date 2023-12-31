@@ -1,5 +1,5 @@
 // Wemos ESP8266 with battery holder and 0.96" 128x64 OLED display
-// one button as input
+// one button as input 2024/01/01
 
 #include <U8g2lib.h>
 #include <SPI.h>
@@ -8,8 +8,11 @@
 #include <math.h>
 #include <ESP_EEPROM.h>
 
-U8G2_SH1106_128X64_NONAME_F_SW_I2C  u8g2(0, 12, 14); // wide Lolin ESP8266 board
-// U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(0, 4, 5);   // integrated board
+U8G2_SH1106_128X64_NONAME_F_SW_I2C  u8g2(U8G2_R0, 12, 14); // wide Lolin ESP8266 board
+// U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, 4, 5);   // integrated board
+
+#define FONT7     u8g2_font_5x7_mf
+#define PROFONT15 u8g2_font_profont15_mf
 
 int buttonUP   = 13;
 int buttonDOWN = 12;
@@ -103,15 +106,14 @@ void elapsed_time(long seconds) {
 void last_results(int startvalue) {
   Serial.print("\nPrevious results ESP8266 12E:\n");
   Serial.print("    last        seconds   \n");  
-  u8g2.setCursor(0, 16);
   int digits = 6;
   for(int i = startvalue; i < 6 + startvalue; i++) {
     int spaces = 9 - (int)log10(scope[i]);
     for(int j = 0; j < spaces; j++) {
       Serial.print(" ");
-      u8g2.print(" ");
     }
     Serial.print(scope[i]);
+    u8g2.setCursor(spaces * 5, 24 + 8 * i);
     u8g2.print(scope[i]);
     Serial.print("    ");
     u8g2.print(" ");
@@ -124,9 +126,8 @@ void last_results(int startvalue) {
     else {
       digits = 6;
     }
-    u8g2.print(last_time, digits);
+    u8g2.print(String(last_time, digits));
     Serial.print("\n");
-    u8g2.print("\n");
     u8g2.sendBuffer();
   }  
 }
@@ -143,43 +144,40 @@ void show_last(int index) {
 void setup() {
   Serial.begin(74880);
   u8g2.begin();
+  u8g2.clearBuffer();
   pinMode(led, OUTPUT);
   digitalWrite(led, LOW);
   // pinMode(buttonUP  , INPUT_PULLUP);
   // pinMode(buttonDOWN, INPUT_PULLUP);
   pinMode(buttonOK  , INPUT_PULLUP);
-  // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  // if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-  //   Serial.println(F("SSD1306 allocation failed"));
-  //   for(;;); // Don't proceed, loop forever
-  // }
-  u8g2.clearBuffer();
-  // u8g2.setRotation(2); // 180 degrees
-  u8g2.setFont(u8g2_font_NokiaSmallPlain_tf);
+  // u8g2.setFont(PROFONT15);
   // u8g2.setTextColor(SSD1306_WHITE, SSD1306_BLACK); // Draw white text
-  u8g2.setCursor(0, 0);
-  u8g2.firstPage();
-  do {
-    u8g2.setFont(u8g2_font_ncenB14_tr);
-    u8g2.drawStr(0,24,"Hello World!");
-  } while ( u8g2.nextPage() );
-  for (int i = 0; i < 2; i++) {
+  // u8g2.drawStr(0, 0, ".");
+  // u8g2.firstPage();
+  // do {
+  //   u8g2.setFont(u8g2_font_ncenB14_tr);
+  //   u8g2.drawStr(0,24,"Hello World!");
+  // } while ( u8g2.nextPage() );
+
+  for (int i = 0; i < 3; i++) {
     Serial.print(".");
-    u8g2.print(".");
+    u8g2.setFont(PROFONT15);
+    u8g2.drawStr(20+10*i, 20, ".");
     u8g2.sendBuffer();
     delay(1000);
   }
-  digitalWrite(led, HIGH);  
-  u8g2.clearBuffer();
-  u8g2.setCursor(0, 0);
+  digitalWrite(led, HIGH);
 
   // previous run
   EEPROM.begin(48);
   Serial.print("\n\nEEPROM already used to ");
   Serial.print(EEPROM.percentUsed());
   Serial.print("%\n");
-  u8g2.print("Previous ESP8266 12E\n");
-  u8g2.print("    last    seconds\n");
+  u8g2.clearBuffer();
+  u8g2.setFont(FONT7);
+  u8g2.drawStr(0, 8, "Previous ESP8266 12E");
+  u8g2.drawStr(0, 16, "    last    seconds");
+  u8g2.sendBuffer();
   int current_value = 0;
   last_results(current_value);
   while(digitalRead(buttonOK) == 1) {
@@ -216,21 +214,13 @@ void setup() {
 
 
 
-  // for(int i = 8; i < 32; i++) {
-  //   int last = pow(2, i);
-  //   Serial.print("\nFind primes until ");
-  //   Serial.print(last);
-  //   find_primes(last);
-  //   delay(10);
-  // }
-
 
   // select the range for the new calculation *****************
   u8g2.clearBuffer();
   u8g2.setCursor(0, 0);
   u8g2.setFont(u8g2_font_profont22_tn);
   u8g2.print("Primes to");
-  current_value = 0;
+  current_value = 6;
   show_last(current_value);
   while(digitalRead(buttonOK) == 1) {
     if(digitalRead(buttonDOWN) == 0) {
