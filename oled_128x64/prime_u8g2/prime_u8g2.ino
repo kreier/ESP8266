@@ -1,5 +1,5 @@
-// Wemos ESP8266 with battery holder and 0.96" 128x64 OLED display
-// one button as input 2024/01/01
+// Wemos ESP8266 1.14" 128x64 OLED display
+// one button as input 2024/01/04
 
 #include <U8g2lib.h>
 #include <SPI.h>
@@ -14,8 +14,6 @@ U8G2_SH1106_128X64_NONAME_F_SW_I2C  u8g2(U8G2_R0, 12, 14); // wide Lolin ESP8266
 #define FONT7     u8g2_font_5x7_mf
 // #define FONT7     u8g2_font_resoledmedium_tr
 #define FONT10    u8g2_font_6x10_mf
-#define FONT15    u8g2_font_9x15B_mf
-#define PROFONT15 u8g2_font_profont15_mf
 #define PROFONT17 u8g2_font_profont17_mf
 
 int buttonDOWN = 12;
@@ -231,7 +229,8 @@ void setup() {
   u8g2.sendBuffer();
 
   // start calculating in micros for higher precision for the first 7 calculations
-  long last = scope[current_index];
+  // changed to millis since after 71 minutes there is a rollover
+  uint32_t last = scope[current_index];
   found = 4;   // we already know 2, 3, 5, 7
   Serial.println("\n\nPrime v5.3");
   Serial.print("Primes until ");
@@ -240,9 +239,9 @@ void setup() {
   u8g2.drawStr(15, 50, "Now calculating");
   u8g2.drawStr(15, 62, "prime factors.");
   u8g2.sendBuffer();
-  float last_percent = (float)last / 100.0;
+  float last100 = last / 100.0;
   
-  start = micros();      
+  start = millis();      
   uint16_t largest_divider = (sqrt(last)); 
   if(largest_divider % 2 == 0)
   {
@@ -258,21 +257,14 @@ void setup() {
   u8g2.clearBuffer();
   show_scope(current_index);
   u8g2.sendBuffer();  
-  long dot = millis();
+  double dot = millis();
   int column = 0;
-  float numberf = 0.0;
   for(uint32_t number = largest_divider + 2; number < last; number += 2)
   {
     found += is_prime_fast(number);
     if ((millis() - dot) > 1234) {
       Serial.print(".");
       dot = millis();
-      numberf = (float)number;
-      Serial.print(last_percent);
-      Serial.print("  ");
-      Serial.print(numberf);
-      Serial.print("  ");
-      Serial.println(number / last_percent);
       column += 1;
       if(column % 2 == 0) {
         digitalWrite(led, HIGH);
@@ -285,9 +277,9 @@ void setup() {
       u8g2.setCursor(0, 44);
       u8g2.print(number);
       u8g2.print(" - ");
-      u8g2.print(numberf / last_percent);
+      u8g2.print(number / last100);
       u8g2.println("%   ");
-      timer = (micros() - start)/1000000;
+      timer = (millis() - start)/1000;
       u8g2.setCursor(0, 54);
       u8g2.print(String(timer, 3));
       u8g2.println(" seconds ");
@@ -305,12 +297,12 @@ void setup() {
         Serial.print(" - ");
         Serial.print(number);
         Serial.print(" ");
-        Serial.print(numberf / last_percent);
+        Serial.print(number / last100);
         Serial.print("% \n");
       }
     }
   }
-  const float duration = (micros() - start)/1000000;
+  const float duration = (millis() - start)/1000;
   if(duration > 2) {
     Serial.print("\n");
   }    
