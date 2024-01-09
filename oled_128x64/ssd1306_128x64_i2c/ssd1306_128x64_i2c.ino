@@ -59,18 +59,24 @@ static const unsigned char PROGMEM logo_bmp[] =
 
 void setup() {
   Serial.begin(74880);
-  Wire.begin(5, 4);
+  // Wire.begin(5, 4);  // for esp8266
+  // below for Raspberry Pico 2040
+  Wire.setSDA(0);
+  Wire.setSCL(1);
+  Wire.begin();
 
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
-
+  
   // Show initial display buffer contents on the screen --
   // the library initializes this with an Adafruit splash screen.
   display.display();
   delay(2000); // Pause for 2 seconds
+  
+  Serial.println("Display initialized.");
 
   // Clear the buffer
   display.clearDisplay();
