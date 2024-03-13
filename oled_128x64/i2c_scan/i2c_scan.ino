@@ -5,10 +5,11 @@ void setup()
 {
   // Wire.begin(SDA, SCL);
   // Wire.begin(5, 4);       // shield with OLED and 18650 holder
-  Wire.begin(14, 12);    // Lolin wider ESP8266 board
+  // Wire.begin(14, 12);     // Lolin wider ESP8266 board
+  Wire.begin(6, 7);          // Wificar24 T400
  
   Serial.begin(74880);
-  while (!Serial);             // Leonardo: wait for serial monitor
+  // while (!Serial);             // Leonardo: wait for serial monitor
   Serial.println("\nI2C Scanner");
 }
  
