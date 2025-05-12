@@ -1,5 +1,10 @@
 # Projects with the ESP8266
 
+![GitHub Release](https://img.shields.io/github/v/release/kreier/ESP8266)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/kreier/ESP8266)
+![GitHub License](https://img.shields.io/github/license/kreier/ESP8266)
+
+
 You can get a variety of different ESP8266 boards here in HCM, for less than $3. One resource is  [CỬA HÀNG IC ĐÂY RỒI](https://icdayroi.com/). Another one is [Công Ty thegioiic](https://www.thegioiic.com/). Here are some boards I got and used in 2018:
 
 ![ESP8266 boards](pic/esp8266.jpg)
